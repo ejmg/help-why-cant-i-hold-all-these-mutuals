@@ -1,0 +1,9 @@
+__pycache__/
+
+# for the love of all that is holy do not put this on github or anywhere else public
+secret.py
+
+# emacs shit
+*~
+*#
+*.#
