@@ -1,4 +1,18 @@
+"""
+mutuals.py
+~~~~~~~~
 
+so your first mistake was using my code, but since you are clearly reading this
+let it be known that mutuals.py lets you create a mutuals list on the hell
+site known as "twitter dot com".
+
+assuming you have python3 installed and your account credentials properly
+stored in secret.py, running `python3 mutuals.py` should do the trick.
+
+:copyright: @ 2018
+:author: elias julian marko garcia
+:license: WTFNMFPL, see LICENSE
+"""
 
 import tweepy as ty
 import time
