@@ -51,8 +51,8 @@ def handleCursorLimit(cursor):
             yield cursor.next()
         except ty.RateLimitError:
             print("you must have a lot of mutuals or something because we have"
-                  " have officially just hit twitter's api limit. give it some"
-                  " some time to reset, ~15 mins,  and the script will pickup")
+                  " officially just hit twitter's api limit. give it some"
+                  " time to reset, ~15 mins,  and the script will pickup")
             print("sleeping! {}".format(time.localtime()))
             # got fucked by jack's api once again, press F please
             time.sleep(60 * 15)
