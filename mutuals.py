@@ -76,7 +76,28 @@ def mutuals(api):
     # debugging
     # print("Your user ID number: {}".format(thyself))
 
-    for fran in handleCursorLimit(ty.Cursor(api.friends).items()):
+    # loop over the smaller of (followers, following)
+    me = api.me()
+    follower_count = me.followers_count
+    following_count = me.friends_count
+    print("you're following {} and followed by {}".format(
+        following_count, follower_count
+    ))
+    if 0 in (follower_count, following_count):
+        print("apparently follower/following count can be 0 during a *period"
+              "of duress* whatever that means. try again later...")
+        sys.exit()
+    else:
+        if follower_count < following_count:
+            print("you're a lurker!")
+            franz = api.followers
+        else:
+            print("you're popular...")
+            franz = api.friends
+    n_franz = min(follower_count, following_count)
+    n_seen = 0
+
+    for fran in handleCursorLimit(ty.Cursor(franz).items()):
         # debugging
         # print("fran: {}".format(fran.id))
 
@@ -88,6 +109,8 @@ def mutuals(api):
                 franship = api.show_friendship(
                     source_id=thyself, target_id=fran.id)
 
+                n_seen += 1
+
                 if franship[0].following and franship[0].followed_by:
                     iCanCountLol += 1
                     mutualists.append(franship[1].id)
@@ -98,8 +121,12 @@ def mutuals(api):
                 break
 
             except ty.RateLimitError:
-                print("we hit the rate error, @jack is not pleased."
-                      "give the script ~15 mins to finish what it is doing.")
+                print(
+                    "we hit the rate error after {}/{}, @jack is not pleased."
+                    "give the script ~15 mins to finish what it is doing."
+                    "".format(
+                          n_seen, n_franz)
+                      )
                 # we must satiate @jack's thirst for wasted cpu cycles
                 time.sleep(60 * 15)
                 continue
