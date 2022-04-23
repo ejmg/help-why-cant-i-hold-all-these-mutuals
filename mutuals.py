@@ -32,7 +32,7 @@ def setTwitterAuth():
     # sets the auth tokens for twitter using tweepy
     auth = ty.OAuthHandler(CONSUMER_TOKEN, CONSUMER_SECRET)
     auth.set_access_token(ACCESS_TOKEN, ACCESS_SECRET)
-    api = ty.API(auth)
+    api = ty.API(auth, wait_on_rate_limit=True)
     return api
 
 
@@ -45,11 +45,15 @@ def handleCursorLimit(cursor):
 
     :param cursor: cursor iterator for finding all friends
     :return: yields the next cursor to iterate over
+    
+    NEV: i think tweepy may now do pagination better and also calling the API 
+    with wait_on_rate_limit=True may fix this problem, so maybe this whole 
+    section can be taken out?? lol idk i canx even code
     """
     while True:
         try:
             yield cursor.next()
-        except ty.RateLimitError:
+        except ty.TooManyRequests:
             print("you must have a lot of mutuals or something because we have"
                   " have officially just hit twitter's api limit. give it some"
                   " some time to reset, ~15 mins,  and the script will pickup")
@@ -70,22 +74,22 @@ def mutuals(api):
 
     :param api: api object necessary to access user's account data
     """
-    thyself = api.me().id
+    thyself = api.verify_credentials().id
     iCanCountLol = 0
     mutualists = []
     # debugging
-    # print("Your user ID number: {}".format(thyself))
+    print("Your user ID number: {}".format(thyself))
 
-    for fran in handleCursorLimit(ty.Cursor(api.friends).items()):
+    for fran in handleCursorLimit(ty.Cursor(api.get_friends).items()):
         # debugging
-        # print("fran: {}".format(fran.id))
+        print("fran: {}".format(fran.id))
 
         # technically speaking, this api request can still fuck us over and
         # sideways, so let us pray together very very very very hard that the
         # magic dice of the universe roll our way on this request.
         for _ in range(11):
             try:
-                franship = api.show_friendship(
+                franship = api.get_friendship(
                     source_id=thyself, target_id=fran.id)
 
                 if franship[0].following and franship[0].followed_by:
@@ -97,7 +101,7 @@ def mutuals(api):
                 # goes unsatiated nonetheless.
                 break
 
-            except ty.RateLimitError:
+            except ty.TooManyRequests:
                 print("we hit the rate error, @jack is not pleased."
                       "give the script ~15 mins to finish what it is doing.")
                 # we must satiate @jack's thirst for wasted cpu cycles
@@ -130,7 +134,7 @@ def mutuals(api):
                 api.add_list_member(
                     user_id=muchie, list_id=myOwnStasi, owner_id=thyself)
                 break
-            except ty.RateLimitError:
+            except ty.TooManyRequests:
                 print("we hit the rate error, @jack is not pleased."
                       "give the script ~15 mins to finish what it is"
                       " doing.")
