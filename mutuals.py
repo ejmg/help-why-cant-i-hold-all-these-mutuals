@@ -2,7 +2,7 @@
 mutuals.py
 ~~~~~~~~
 
-so your first mistake was using my code, but since you are clearly reading this
+so your first mistake was using my code, but since you're clearly reading this
 let it be known that mutuals.py lets you create a mutuals list on the hell
 site known as "twitter dot com".
 
@@ -67,7 +67,7 @@ def mutuals(api):
     this is the actual meat of the script. gathers a list of your friends,
     checks for mutual status, and creates a list of them.
 
-    if you are wondering what the fuck i'm doing with these try catches,
+    if you're wondering what the fuck i'm doing with these try catches,
     blame the fact twitter only partially implements pagination in their
     api, thus defeating a very useful/clean feature for handling api
     limit exceptions.
