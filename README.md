@@ -22,5 +22,5 @@ so u wanted to make a list of ur mutuals huh
   
 ## if it doesn't work or something idk
 
-ᶦ ᵃᵐ ˢᵒ ˢᵒʳʳʸ
+<sup>i am so sorry</sup>
   
