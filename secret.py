@@ -1,10 +1,8 @@
 """
-Insert the values you find at https://apps.twitter.com/ below in their
-corresponding variable **between** the single quotes for each.
-
-If you do not have your user credentials created yet, go to step 1 of this
-blog post which describes how to create these values:
-https://ageof.info/setting-up-twitter-bot-with-python-and-tweepy.html
+You'll have to make your own app for this.
+- Sign up at https://developer.twitter.com/
+- Create a new app and give it a name at https://developer.twitter.com/portal/projects-and-apps/
+- In the next step, generate the keys and tokens. Insert the corresponding values below **between** the single quotes.
 """
 
 CONSUMER_TOKEN = ''
